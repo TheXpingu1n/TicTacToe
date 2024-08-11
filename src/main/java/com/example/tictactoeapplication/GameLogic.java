@@ -76,7 +76,7 @@ public class GameLogic {
     // 0 no winner
     // 1 X wins
     // 2 O wins
-    public int checkRow()
+    private int checkRow()
     {
         int rsum = 0;
         boolean draw = false;
@@ -104,7 +104,7 @@ public class GameLogic {
         }
         return winner;
     }
-    public int checkcol()
+    private int checkcol()
     {
         int csum = 0;
         int winner = 0;
@@ -135,15 +135,13 @@ public class GameLogic {
         }
         return winner;
     }
-    public int checkdiagonals()
+    private int checkdiagonal()
     {
-        int winner = 0;
-        int d1 = 0;
-        int d2 = 0;
         boolean draw = false;
-        for (int i = 0; i < 3; i++)
+        int sum = 0;
+        for(int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 3; j++)
+            for(int j = 0; j < 3; j++)
             {
                 if(i == j && grid[i][j] == 0)
                 {
@@ -151,43 +149,42 @@ public class GameLogic {
                     break;
                 }
                 if(i == j)
-                    d1 += this.grid[i][j];
-            }
-            if(!draw && d1 == 3) {
-                winner = 1;
-                break;
-            }
-            if(!draw && d1 == 6)
-            {
-                winner = 2;
-                break;
+                {
+                    sum += grid[i][j];
+                }
             }
             if(draw)
                 break;
+        }
+        if(sum == 6 && !draw)
+            return 2;
+        if(sum == 3 && !draw)
+            return 1;
 
-            for (int j = 0; j < 2; j++)
+        draw = false;
+        sum = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
             {
-                if(j+i == 2 && grid[i][j] == 0)
+                if(i+j == 2 && this.grid[i][j] == 0)
                 {
                     draw = true;
                     break;
                 }
-                if(i+j == 2)
+                if(i + j == 2)
                 {
-                    d2 += this.grid[i][j];
+                    sum += this.grid[i][j];
                 }
             }
-            if(!draw && d2 == 3) {
-                winner = 1;
+            if(draw)
                 break;
-            }
-            if(!draw && d2 == 6)
-            {
-                winner = 2;
-                break;
-            }
         }
-        return winner;
+        if(sum == 6 && !draw)
+                return 2;
+        if(sum == 3 && !draw)
+            return 1;
+        return 0;
     }
     public int tracker()
     {
@@ -197,10 +194,39 @@ public class GameLogic {
         winner = checkcol();
         if(winner != 0)
             return winner;
-        winner = checkdiagonals();
+        winner = checkdiagonal();
         if(winner != 0)
             return winner;
 
         return winner;
+    }
+    public boolean isDraw()
+    {
+        int result = tracker();
+        boolean res = true;
+        if(result == 0)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if(grid[i][j] == 0)
+                    {
+                        res = false;
+                        return res;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    public void printAtConsole()
+    {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(this.grid[i][j]);
+            }
+            System.out.println();
+        }
     }
 }
