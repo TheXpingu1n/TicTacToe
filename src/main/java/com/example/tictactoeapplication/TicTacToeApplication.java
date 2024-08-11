@@ -66,17 +66,21 @@ public class TicTacToeApplication extends Application{
             if(logic.isDraw())
             {
                 endofgame.setText("Draw :(");
+                if(endofgame.getText().equals("Draw :(") && win != 1 && win != 2)
+                    logic.log_the_winner("Draw.");
                 window.setScene(whowins);
             }
             if(win == 1)
             {
                 endofgame.setText("Player X Wins!!");
+                logic.log_the_winner("Player X Wins.");
                 window.setScene(whowins);
                 return;
             }
             if (win == 2)
             {
                 endofgame.setText("Player O Wins!!");
+                logic.log_the_winner("Player O Wins.");
                 window.setScene(whowins);
                 return;
             }

@@ -1,6 +1,14 @@
 package com.example.tictactoeapplication;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Calendar;
+
 public class GameLogic {
     private int[][] grid = new int[3][3];
+    Calendar c;
     // 0 notplayed,1 x, 2 o
 
     public int getGrid(int index)
@@ -227,6 +235,20 @@ public class GameLogic {
                 System.out.print(this.grid[i][j]);
             }
             System.out.println();
+        }
+    }
+    public void log_the_winner(String winner)
+    {
+        c = Calendar.getInstance();
+
+        try(FileWriter fw = new FileWriter("src/main/java/com/example/tictactoeapplication/log", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.println(winner + " at Time: " + c.getTime());
+
+        } catch (Exception e) {
+            System.out.println("Error is: " + e.getMessage());
         }
     }
 }
